@@ -36,6 +36,12 @@ define REQUIRE_ENV
 	fi
 endef
 
+# Default target changed from selfhost to help: bare `make` now prints this help
+# instead of launching a full Docker Compose build, which is safer for onboarding.
+.DEFAULT_GOAL := help
+
+##@ Help
+
 help: ## Show available make targets and common local workflows
 	@awk 'BEGIN {FS = ":.*## "; printf "\nUsage:\n  make \033[36m<target>\033[0m\n\nQuick start:\n  \033[36mmake dev\033[0m          Bootstrap the current checkout and start everything\n  \033[36mmake check\033[0m        Run the full local verification pipeline\n\nCheckout modes:\n  Main checkout uses \033[36m.env\033[0m\n  Worktrees use \033[36m.env.worktree\033[0m (generate with \033[36mmake worktree-env\033[0m)\n\n"} \
 		/^##@/ {printf "\n\033[1m%s\033[0m\n", substr($$0, 5); next} \
